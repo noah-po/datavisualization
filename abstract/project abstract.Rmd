@@ -1,0 +1,16 @@
+---
+title: "whatever title"
+author: "Grant Cole, Madi Lane, Maria Pinkerton, Noah Polacek, Luis Rodriguez"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\begin{abstract}
+blah blah blah
+
+\end{abstract}
