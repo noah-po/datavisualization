@@ -30,18 +30,21 @@ colnames(Salary) <- c("Employee","Position","Campus          ", "Department", "B
 ##Let's try it again!
 ```
 
-```{r}
+```{r, warning = F}
+#My lovely scripts!
 unoSalaryByDept <- unoSalary[,c(1:5)]
 count_empl <- unoSalaryByDept %>% count(Department) 
+unoSalaryByDept <- unoSalaryByDept %>% group_by(Employee) %>% summarise(Budgeted..Annual.Salary = sum(Budgeted..Annual.Salary), Department = Department) %>% distinct()
 
 
-unoSalaryByDept <-unoSalaryByDept %>% 
-  
+unoSalaryByDeptWithAvg <-unoSalaryByDept %>% 
   group_by(Department) %>%
   summarise_at(vars(Budgeted..Annual.Salary), list(avg_sal = mean))
-unoSalaryByDept$EmployeeCount <- count_empl[,2]
+unoSalaryByDeptWithAvg$EmployeeCount <- count_empl[,2]
 
-UNOdepartmentData <- unoSalaryByDept[order(unoSalaryByDept$avg_sal, decreasing = T),]
+UNOdepartmentData <- unoSalaryByDeptWithAvg[order(unoSalaryByDeptWithAvg$avg_sal, decreasing = T),]
+
+UNOdepartmentData <- UNOdepartmentData[which(UNOdepartmentData$EmployeeCount>=10),]
 
 ```
 
