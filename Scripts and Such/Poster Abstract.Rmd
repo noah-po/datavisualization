@@ -10,8 +10,8 @@ output: pdf_document
 ```{r, echo = FALSE}
 library(dplyr, warn.conflicts = FALSE)
 library(knitr)
-Salary <- read.csv("C:/Users/grant/OneDrive/Desktop/Data Vis/datavisualization/Data/Salary.csv")
-##unoSalary <- Salary %>% filter(Salary$Campus == "UNO")
+Salary <- read.csv("https://raw.githubusercontent.com/noah-po/datavisualization/master/Data/Salary.csv")
+unoSalary <- Salary %>% filter(Salary$Campus == "UNO")
 Salary$Salary.from.Other.Funds <- NULL
 Salary$Salary.from.State.Aided.Funds <- NULL
 
