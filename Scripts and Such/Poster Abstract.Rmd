@@ -43,6 +43,7 @@ colnames(unlSalary) <- c("Employee","Position","Campus", "Department", "Budgeted
 colnames(unkSalary) <- c("Employee","Position","Campus", "Department", "Budgeted Annual Salary")
 colnames(uncaSalary) <- c("Employee","Position","Campus", "Department", "Budgeted Annual Salary")
 colnames(unmcSalary) <- c("Employee","Position","Campus", "Department", "Budgeted Annual Salary")
+head(uncaSalary)
 
 <<<<<<< HEAD
 
@@ -56,6 +57,12 @@ kable(head(unmcSalary), format.args = list(big.mark = ","))
 >>>>>>> a1b92cc844650d59123e2b05b56a043e933f9a36
 
 ```
+```{r}
+NESystem= rbind(uncaSalary, unoSalary, unkSalary, unlSalary, unmcSalary)
+
+ 
+```
+
 
 
 
