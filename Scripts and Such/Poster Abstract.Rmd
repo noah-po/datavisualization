@@ -3,6 +3,7 @@ title: "Exploring Salary Differences Among University of Nebraska Employees"
 author: "Grant Cole, Madison Lane, Maria Pinkerton, Noah Polacek, Luis Rodriguez"
 date: "Abstract Due: February 22, 2022"
 output: pdf_document
+hello
 ---
 
 \abstract{The salaries of university employees vary significantly based on the following: experience, university size, and department. In particular, there are vast differences in salaries among faculty members and employees across departments, with professors in mathematical and business-related fields paid higher than their counterparts in humanities and fine arts, on average. Using a data file containing over 13,000 observations (each corresponding to a salaried instructor or staff member) from the University of Nebraska payroll from the 2021-2022 fiscal year, this poster contains salary relationships across departments, positions (assistant professor, associate professor, full professor), and universities. Through the use of exploratory data analysis, we seek to gain a more thorough understanding of professorial salaries within the University of Nebraska system.}
