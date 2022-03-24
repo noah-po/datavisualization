@@ -61,9 +61,10 @@ beans <- within(top10_avgsal,
 
 ```{r}
 plot <- (ggplot(top10_avgsal, aes(x = reorder(Department, avg_sal), y = avg_sal, fill = Department)) + geom_bar(stat = "identity") + coord_flip())
-#??
 plot 
 ```
 
+```{r}
+```
 
 

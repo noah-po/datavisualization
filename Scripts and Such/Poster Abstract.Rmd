@@ -44,16 +44,13 @@ colnames(unkSalary) <- c("Employee","Position","Campus", "Department", "Budgeted
 colnames(uncaSalary) <- c("Employee","Position","Campus", "Department", "Budgeted Annual Salary")
 colnames(unmcSalary) <- c("Employee","Position","Campus", "Department", "Budgeted Annual Salary")
 
-<<<<<<< HEAD
 
-=======
 kable(head(Salary), format.args = list(big.mark = ","))
 kable(head(unoSalary), format.args = list(big.mark = ","))
 kable(head(unlSalary), format.args = list(big.mark = ","))
 kable(head(unkSalary), format.args = list(big.mark = ","))
 kable(head(uncaSalary), format.args = list(big.mark = ","))
 kable(head(unmcSalary), format.args = list(big.mark = ","))
->>>>>>> a1b92cc844650d59123e2b05b56a043e933f9a36
 
 ```
 
