@@ -14,13 +14,12 @@ Salary <- read.csv("https://raw.githubusercontent.com/noah-po/datavisualization/
 unoSalary <- Salary %>% filter(Salary$Campus == "UNO")
 Salary$Salary.from.Other.Funds <- NULL
 Salary$Salary.from.State.Aided.Funds <- NULL
-
 colnames(Salary) <- c("Employee","Position","Campus", "Department", "Budgeted Annual Salary")
-
 kable(head(Salary), format.args = list(big.mark = ","))
 
 ##Change.
-
 ##Let's try it again!
+
+
 
 ```
