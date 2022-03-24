@@ -16,14 +16,38 @@ unlSalary <- Salary %>% filter(Salary$Campus == "UNL")
 unkSalary <- Salary %>% filter(Salary$Campus == "UNK")
 uncaSalary <- Salary %>% filter(Salary$Campus == "UNCA")
 unmcSalary <- Salary %>% filter(Salary$Campus == "UNMC")
+
 Salary$Salary.from.Other.Funds <- NULL
 Salary$Salary.from.State.Aided.Funds <- NULL
+#Removing the two rightmost columns for UNO
+unoSalary$Salary.from.Other.Funds <- NULL
+unoSalary$Salary.from.State.Aided.Funds <- NULL
+##for UNL...
+unlSalary$Salary.from.Other.Funds <- NULL
+unlSalary$Salary.from.State.Aided.Funds <- NULL
+##for UNK...
+unkSalary$Salary.from.Other.Funds <- NULL
+unkSalary$Salary.from.State.Aided.Funds <- NULL
+##for UNCA...
+uncaSalary$Salary.from.Other.Funds <- NULL
+uncaSalary$Salary.from.State.Aided.Funds <- NULL
+##for UNMC...
+unmcSalary$Salary.from.Other.Funds <- NULL
+unmcSalary$Salary.from.State.Aided.Funds <- NULL
+
+##Adding column names for each each college's dataset.
 colnames(Salary) <- c("Employee","Position","Campus", "Department", "Budgeted Annual Salary")
+colnames(unoSalary) <- c("Employee","Position","Campus", "Department", "Budgeted Annual Salary")
+colnames(unlSalary) <- c("Employee","Position","Campus", "Department", "Budgeted Annual Salary")
+colnames(unkSalary) <- c("Employee","Position","Campus", "Department", "Budgeted Annual Salary")
+colnames(uncaSalary) <- c("Employee","Position","Campus", "Department", "Budgeted Annual Salary")
+colnames(unmcSalary) <- c("Employee","Position","Campus", "Department", "Budgeted Annual Salary")
+
 kable(head(Salary), format.args = list(big.mark = ","))
-
-##Change.
-##Let's try it again!
-
-
+kable(head(unoSalary), format.args = list(big.mark = ","))
+kable(head(unlSalary), format.args = list(big.mark = ","))
+kable(head(unkSalary), format.args = list(big.mark = ","))
+kable(head(uncaSalary), format.args = list(big.mark = ","))
+kable(head(unmcSalary), format.args = list(big.mark = ","))
 
 ```
