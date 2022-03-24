@@ -48,9 +48,9 @@ unoSalaryByDeptWithAvg$EmployeeCount <- count_empl[,2]
 
 UNOdepartmentData <- unoSalaryByDeptWithAvg[order(unoSalaryByDeptWithAvg$avg_sal, decreasing = T),]
 
-UNOdepartmentData <- UNOdepartmentData[which(UNOdepartmentData$EmployeeCount>=10),]
+UNOdepartmentData <- UNOdepartmentData[which(UNOdepartmentData$EmployeeCount>=15),]
 
-top10_avgsal <- top_n(UNOdepartmentData, 10, UNOdepartmentData$avg_sal)
+top10_avgsal <- top_n(UNOdepartmentData, 15, UNOdepartmentData$avg_sal)
 
 beans <- within(top10_avgsal, 
                    avg_sal <- factor(avg_sal, 
@@ -60,9 +60,15 @@ beans <- within(top10_avgsal,
 ```
 
 ```{r}
-plot <- (ggplot(top10_avgsal, aes(x = reorder(Department, avg_sal), y = avg_sal, fill = Department)) + geom_bar(stat = "identity") + coord_flip())
-#??
-plot 
+plot <- (ggplot(top10_avgsal, aes(x = reorder(Department, avg_sal), y = avg_sal, fill = "red2")) + geom_bar(stat = "identity") + coord_flip()) +labs(title = "Average Salary by Department", x = "Salary (in USD)", y = "Department")
+
+
+plot1 <- (ggplot(top10_avgsal, aes(x = reorder(Department, avg_sal), y = avg_sal)) + geom_bar(stat = "identity", fill = "brown2", position = "dodge", width = 0.75) + coord_flip()) + labs(title = "Average Salary by Department (Min: 15 Employees)", y = "Dollars ($)", x = "Department") + geom_text(aes(label= sprintf("$%.2f", avg_sal)), position=position_dodge(width=0.9), hjust=-0.1) + ylim(0, 160000)
+
+
+plot
+
+plot1
 ```
 
 
