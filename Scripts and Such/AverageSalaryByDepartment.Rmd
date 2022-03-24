@@ -7,6 +7,10 @@ output: pdf_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(dplyr, warn.conflicts = FALSE)
+library(knitr)
+library(RColorBrewer)
+library(tidyverse)
 ```
 
 ```{r, echo = FALSE}
@@ -46,12 +50,19 @@ UNOdepartmentData <- unoSalaryByDeptWithAvg[order(unoSalaryByDeptWithAvg$avg_sal
 
 UNOdepartmentData <- UNOdepartmentData[which(UNOdepartmentData$EmployeeCount>=10),]
 
+top10_avgsal <- top_n(UNOdepartmentData, 10, UNOdepartmentData$avg_sal)
+
+beans <- within(top10_avgsal, 
+                   avg_sal <- factor(avg_sal, 
+                                      levels=names(sort(table(avg_sal), 
+                                                        decreasing=TRUE))))
+
 ```
 
 ```{r}
-
-
-
+plot <- (ggplot(top10_avgsal, aes(x = reorder(Department, avg_sal), y = avg_sal, fill = Department)) + geom_bar(stat = "identity") + coord_flip())
+#??
+plot 
 ```
 
 
