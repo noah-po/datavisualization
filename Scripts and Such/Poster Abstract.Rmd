@@ -21,9 +21,12 @@ Salary$Salary.from.State.Aided.Funds <- NULL
 
 colnames(Salary) <- c("Employee","Position","Campus          ", "Department", "Budgeted Annual Salary")
 
-kable(head(Salary), format.args = list(big.mark = ","))
+
 
 ##Change.
 
 ##Let's try it again!
 ```
+
+
+
