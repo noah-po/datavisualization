@@ -15,11 +15,12 @@ Salary <- read.csv("C:/Users/grant/OneDrive/Desktop/Data Vis/datavisualization/D
 Salary$Salary.from.Other.Funds <- NULL
 Salary$Salary.from.State.Aided.Funds <- NULL
 
-colnames(Salary) <- c("Employee","Position","Campus          ", "Department", "Budgeted Annual Salary")
+colnames(Salary) <- c("Employee","Position","Campus", "Department", "Budgeted Annual Salary")
 
 kable(head(Salary), format.args = list(big.mark = ","))
 
 ##Change.
 
 ##Let's try it again!
+
 ```
