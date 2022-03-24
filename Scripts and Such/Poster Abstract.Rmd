@@ -1,0 +1,23 @@
+---
+title: "Exploring Salary Differences Among University of Nebraska Employees"
+author: "Grant Cole, Madison Lane, Maria Pinkerton, Noah Polacek, Luis Rodriguez"
+date: "Abstract Due: February 22, 2022"
+output: pdf_document
+---
+
+\abstract{The salaries of university employees vary significantly based on the following: experience, university size, and department. In particular, there are vast differences in salaries among faculty members and employees across departments, with professors in mathematical and business-related fields paid higher than their counterparts in humanities and fine arts, on average. Using a data file containing over 13,000 observations (each corresponding to a salaried instructor or staff member) from the University of Nebraska payroll from the 2021-2022 fiscal year, this poster contains salary relationships across departments, positions (assistant professor, associate professor, full professor), and universities. Through the use of exploratory data analysis, we seek to gain a more thorough understanding of professorial salaries within the University of Nebraska system.}
+
+```{r, echo = FALSE}
+library(dplyr, warn.conflicts = FALSE)
+library(knitr)
+Salary <- read.csv("C:/Users/grant/OneDrive/Desktop/Data Vis/datavisualization/Data/Salary.csv")
+##unoSalary <- Salary %>% filter(Salary$Campus == "UNO")
+Salary$Salary.from.Other.Funds <- NULL
+Salary$Salary.from.State.Aided.Funds <- NULL
+
+colnames(Salary) <- c("Employee","Position","Campus          ", "Department", "Budgeted Annual Salary")
+
+kable(head(Salary), format.args = list(big.mark = ","))
+
+##Testing 123... :)
+```
