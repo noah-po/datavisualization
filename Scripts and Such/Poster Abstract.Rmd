@@ -13,7 +13,7 @@ library(knitr)
 Salary <- read.csv("https://raw.githubusercontent.com/noah-po/datavisualization/master/Data/Salary.csv")
 unoSalary <- Salary %>% filter(Salary$Campus == "UNO")
 unlSalary <- Salary %>% filter(Salary$Campus == "UNL")
-unkSalary <- Salary %>% filter(Salary$Campus == "UNk")
+unkSalary <- Salary %>% filter(Salary$Campus == "UNK")
 uncaSalary <- Salary %>% filter(Salary$Campus == "UNCA")
 unmcSalary <- Salary %>% filter(Salary$Campus == "UNMC")
 Salary$Salary.from.Other.Funds <- NULL
