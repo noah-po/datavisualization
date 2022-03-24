@@ -32,12 +32,17 @@ colnames(Salary) <- c("Employee","Position","Campus          ", "Department", "B
 
 ```{r}
 unoSalaryByDept <- unoSalary[,c(1:5)]
+count_empl <- unoSalaryByDept %>% count(Department) 
+
+
 unoSalaryByDept <-unoSalaryByDept %>% 
   
   group_by(Department) %>%
   summarise_at(vars(Budgeted..Annual.Salary), list(avg_sal = mean))
+unoSalaryByDept$EmployeeCount <- count_empl[,2]
 
-unoSalaryByDept[order(unoSalaryByDept$avg_sal, decreasing = T),]
+UNOdepartmentData <- unoSalaryByDept[order(unoSalaryByDept$avg_sal, decreasing = T),]
+
 ```
 
 ```{r}
