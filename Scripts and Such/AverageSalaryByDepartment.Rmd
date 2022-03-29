@@ -60,7 +60,7 @@ beans <- within(top10_avgsal,
 ```
 
 ```{r}
-plot <- (ggplot(top10_avgsal, aes(x = reorder(Department, avg_sal), y = avg_sal, fill = "red2")) + geom_bar(stat = "identity") + coord_flip()) +labs(title = "Average Salary by Department", x = "Salary (in USD)", y = "Department")
+plot <- (ggplot(top10_avgsal, aes(x = reorder(Department, avg_sal), y = avg_sal, fill = "red2")) + geom_bar(stat = "identity") + coord_flip()) +labs(title = "Average Salary by Department", x = "Salary (in USD)", y = "Department") + ylim(0, 160000)
 
 
 plot1 <- (ggplot(top10_avgsal, aes(x = reorder(Department, avg_sal), y = avg_sal)) + geom_bar(stat = "identity", fill = "brown2", position = "dodge", width = 0.75) + coord_flip()) + labs(title = "Average Salary by Department (Min: 15 Employees)", y = "Dollars ($)", x = "Department") + geom_text(aes(label= sprintf("$%.2f", avg_sal)), position=position_dodge(width=0.9), hjust=-0.1) + ylim(0, 160000)
@@ -71,5 +71,31 @@ plot
 plot1
 ```
 
+```{r}
+unoSalaryByDept <- unoSalary[,c(1:5)]
+count_empl <- unoSalaryByDept %>% count(Department) 
+unoSalaryByDept <- unoSalaryByDept %>% group_by(Employee) %>% summarise(Budgeted..Annual.Salary = sum(Budgeted..Annual.Salary), Department = Department) %>% distinct()
 
+
+unoSalaryByDeptWithAvg <-unoSalaryByDept %>% 
+  group_by(Department) %>%
+  summarise_at(vars(Budgeted..Annual.Salary), list(avg_sal = mean))
+unoSalaryByDeptWithAvg$EmployeeCount <- count_empl[,2]
+
+UNOdepartmentData <- unoSalaryByDeptWithAvg[order(unoSalaryByDeptWithAvg$avg_sal),]
+
+UNOdepartmentData <- UNOdepartmentData[which(UNOdepartmentData$EmployeeCount>=15),]
+
+last10_avgsal <- top_n(UNOdepartmentData, -15, UNOdepartmentData$avg_sal)
+
+
+plot <- (ggplot(last10_avgsal, aes(x = rev(reorder(Department, avg_sal)), y = avg_sal, fill = "red2")) + geom_bar(stat = "identity") + coord_flip()) +labs(title = "Average Salary by Department", x = "Salary (in USD)", y = "Department") + ylim(0, 160000)
+
+
+plot1 <- (ggplot(last10_avgsal, aes(x = rev(reorder(Department, avg_sal)), y = avg_sal)) + geom_bar(stat = "identity", fill = "brown2", position = "dodge", width = 0.75) + coord_flip()) + labs(title = "Average Salary by Department (Min: 15 Employees)", y = "Dollars ($)", x = "Department") + geom_text(aes(label= sprintf("$%.2f", avg_sal)), position=position_dodge(width=0.9), hjust=-0.1) + ylim(0, 160000)
+
+plot
+
+plot1
+```
 
