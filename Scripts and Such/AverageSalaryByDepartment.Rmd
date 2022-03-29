@@ -77,9 +77,8 @@ plot1
 
 ```{r}
 
-trimmedUNOData <- unoSalary[,c(1:5)] 
 
-boxSalaries = trimmedUNOData[which((unoSalary$Department == "Economics")|(unoSalary$Department == "Mathematics")|(unoSalary$Department == "School of Accounting")|(unoSalary$Department == "School of Accounting")|(unoSalary$Department == "Dept of Finance Banking & Real Est")|(unoSalary$Department == "Computer Science")|(unoSalary$Department == "ISQA")|(unoSalary$Department == "Psychology") | (unoSalary$Department == "Biomechanics") | (unoSalary$Department == "College of Info Science and Tech") | (unoSalary$Department == "Marketing & Entrepreneurship")|(unoSalary$Department == "Student Success")| (unoSalary$Department == "Management")|(unoSalary$Department == "School of Interdisciplinary Information")|(unoSalary$Department == "Academic Affairs")|(unoSalary$Department == "School of Criminology & Crim Justice")),] %>% group_by(Employee) %>% summarise(Budgeted..Annual.Salary = sum(Budgeted..Annual.Salary), Department = Department) %>% distinct()
+boxSalaries = unoSalaryByDept[which((unoSalaryByDept$Department == "Economics")|(unoSalaryByDept$Department == "Mathematics")|(unoSalaryByDept$Department == "School of Accounting")|(unoSalaryByDept$Department == "School of Accounting")|(unoSalaryByDept$Department == "Dept of Finance Banking & Real Est")|(unoSalaryByDept$Department == "Computer Science")|(unoSalaryByDept$Department == "ISQA")|(unoSalaryByDept$Department == "Psychology") | (unoSalaryByDept$Department == "Biomechanics") | (unoSalaryByDept$Department == "College of Info Science and Tech") | (unoSalaryByDept$Department == "Marketing & Entrepreneurship")|(unoSalaryByDept$Department == "Student Success")| (unoSalaryByDept$Department == "Management")|(unoSalaryByDept$Department == "School of Interdisciplinary Information")|(unoSalaryByDept$Department == "Academic Affairs")|(unoSalaryByDept$Department == "School of Criminology & Crim Justice")),] %>% group_by(Employee) %>% summarise(Budgeted..Annual.Salary = sum(Budgeted..Annual.Salary), Department = Department) %>% distinct()
 
 # Boxplots of mpg by number of gears
 # observations (points) are overlayed and jittered
