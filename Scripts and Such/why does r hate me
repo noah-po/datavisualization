@@ -1,0 +1,17 @@
+#ParallelCoordinatePlot
+mpStart<- unoSalary[-c(6,7)]
+#head(mpStart)
+#filter departments to 15+ employees
+mpcount_empl <- mpStart %>% count(Department) 
+#mpStart$EmployeeCount = length(mpStart$Employee)
+mpdf3<- merge(mpStart, mpcount_empl, by='Department')
+#head(mpdf3)
+mpdf2<- mpdf3[which(mpdf3$EmployeeCount>14),]
+#library(GGally)
+#library(GGally)
+#mpdf3
+
+mpPCP<- ggparcoord(data = mpdf3,
+                  columns = 1:6,
+                  groupColumn = 4)
+mpPCP
