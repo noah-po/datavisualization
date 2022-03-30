@@ -1,0 +1,136 @@
+---
+title: "Average Salary by Department"
+author: "Noah Polacek"
+date: "3/23/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr, warn.conflicts = FALSE)
+library(knitr)
+library(RColorBrewer)
+library(tidyverse)
+```
+
+```{r, echo = FALSE}
+library(dplyr, warn.conflicts = FALSE)
+library(knitr)
+Salary <- read.csv("https://raw.githubusercontent.com/noah-po/datavisualization/master/Data/Salary.csv")
+unoSalary <- Salary %>% filter(Salary$Campus == "UNO")
+unlSalary <- Salary %>% filter(Salary$Campus == "UNL")
+unkSalary <- Salary %>% filter(Salary$Campus == "UNK")
+uncaSalary <- Salary %>% filter(Salary$Campus == "UNCA")
+unmcSalary <- Salary %>% filter(Salary$Campus == "UNMC")
+Salary$Salary.from.Other.Funds <- NULL
+Salary$Salary.from.State.Aided.Funds <- NULL
+
+colnames(Salary) <- c("Employee","Position","Campus          ", "Department", "Budgeted Annual Salary")
+
+
+
+##Change.
+
+##Let's try it again!
+```
+
+```{r, warning = F}
+#My lovely scripts!
+unoSalaryByDept <- unoSalary[,c(1:5)]
+count_empl <- unoSalaryByDept %>% count(Department) 
+unoSalaryByDept <- unoSalaryByDept %>% group_by(Employee) %>% summarise(Budgeted..Annual.Salary = sum(Budgeted..Annual.Salary), Department = Department) %>% distinct()
+
+
+unoSalaryByDeptWithAvg <-unoSalaryByDept %>% 
+  group_by(Department) %>%
+  summarise_at(vars(Budgeted..Annual.Salary), list(avg_sal = mean))
+unoSalaryByDeptWithAvg$EmployeeCount <- count_empl[,2]
+
+UNOdepartmentData <- unoSalaryByDeptWithAvg[order(unoSalaryByDeptWithAvg$avg_sal, decreasing = T),]
+
+UNOdepartmentData <- UNOdepartmentData[which(UNOdepartmentData$EmployeeCount>=15),]
+
+top10_avgsal <- top_n(UNOdepartmentData, 15, UNOdepartmentData$avg_sal)
+
+beans <- within(top10_avgsal, 
+                   avg_sal <- factor(avg_sal, 
+                                      levels=names(sort(table(avg_sal), 
+                                                        decreasing=TRUE))))
+
+```
+```{r}
+levy   =c("Dept of Finance Banking & Real Est","School of Accounting","Management","Economics","ISQA","Computer Science","School of Interdisciplinary Informat","Academic Affairs","Student Success","Marketing & Entrepreneurship","College of Info Science and Tech","School of Criminology & Crim Justice","Biomechanics","Psychology","Mathematics")
+
+
+```
+
+```{r}
+plot <- (ggplot(top10_avgsal, aes(x = reorder(Department, avg_sal), y = avg_sal, fill = "red")) + geom_bar(stat = "identity") + coord_flip()) +labs(title = "Greatest Average Salary by Department", x = "Salary (in USD)", y = "Department") + ylim(0, 160000)
+
+plot1 <- (ggplot(top10_avgsal, aes(x = reorder(Department, avg_sal), y = avg_sal)) + geom_bar(stat = "identity", fill = "brown2", position = "dodge", width = 0.75) + coord_flip()) + labs(title = "Greatest Average Salary by Department (Min: 15 Employees)", y = "Dollars ($)", x = "Department") + geom_text(aes(label= sprintf("$%.2f", avg_sal)), position=position_dodge(width=0.9), hjust=-0.1) + ylim(0, 160000)
+
+
+plot
+
+plot1
+```
+
+```{r}
+
+unoSalaryByDept <- unoSalary[,c(1:5)]
+count_empl <- unoSalaryByDept %>% count(Department) 
+unoSalaryByDept <- unoSalaryByDept %>% group_by(Employee) %>% summarise(Budgeted..Annual.Salary = sum(Budgeted..Annual.Salary), Department = Department) %>% distinct()
+
+
+unoSalaryByDeptWithAvg <-unoSalaryByDept %>% 
+  group_by(Department) %>%
+  summarise_at(vars(Budgeted..Annual.Salary), list(avg_sal = mean))
+unoSalaryByDeptWithAvg$EmployeeCount <- count_empl[,2]
+
+UNOdepartmentData <- unoSalaryByDeptWithAvg[order(unoSalaryByDeptWithAvg$avg_sal),]
+
+trimmedUNOData <- unoSalary[,c(1:5)] 
+
+boxSalaries = trimmedUNOData[which((unoSalary$Department == "Economics")|(unoSalary$Department == "Mathematics")|(unoSalary$Department == "School of Accounting")|(unoSalary$Department == "School of Accounting")|(unoSalary$Department == "Dept of Finance Banking & Real Est")|(unoSalary$Department == "Computer Science")|(unoSalary$Department == "ISQA")|(unoSalary$Department == "Psychology") | (unoSalary$Department == "Biomechanics") | (unoSalary$Department == "College of Info Science and Tech") | (unoSalary$Department == "Marketing & Entrepreneurship")|(unoSalary$Department == "Student Success")| (unoSalary$Department == "Management")|(unoSalary$Department == "School of Interdisciplinary Information")|(unoSalary$Department == "Academic Affairs")|(unoSalary$Department == "School of Criminology & Crim Justice")),] %>% group_by(Employee) %>% summarise(Budgeted..Annual.Salary = sum(Budgeted..Annual.Salary), Department = Department) %>% distinct()
+
+# Boxplots of mpg by number of gears
+# observations (points) are overlayed and jittered
+
+levy   =c("Dept of Finance Banking & Real Est","School of Accounting","Management","Economics","ISQA","Computer Science","School of Interdisciplinary Information","Academic Affairs","Student Success","Marketing & Entrepreneurship","College of Info Science and Tech","School of Criminology & Crim Justice","Biomechanics","Psychology","Mathematics")
+```
+
+```{R}
+boxSalaries %>% 
+  ggplot(aes(y = Budgeted..Annual.Salary, x = factor(Department, levels = rev(levy)))) + 
+  geom_boxplot() + 
+  labs(title = "Salary Spread by Department", x = "Salary", y = "Department") + coord_flip()
+
+
+```
+
+```{r}
+(ggplot(top10_avgsal, aes(x = reorder(Department, EmployeeCount), y = EmployeeCount, fill = Department)) + geom_bar(stat = "identity") + labs(x = "Count of Faculty Members", y = "Department") + coord_flip()) + theme(legend.position="none")
+
+```
+
+
+UNOdepartmentData <- UNOdepartmentData[which(UNOdepartmentData$EmployeeCount>=15),]
+
+last10_avgsal <- top_n(UNOdepartmentData, -15, UNOdepartmentData$avg_sal)
+
+
+plot <- (ggplot(last10_avgsal, aes(x = rev(reorder(Department, avg_sal)), y = avg_sal, fill = "red2")) + geom_bar(stat = "identity") + coord_flip()) +labs(title = "Least Average Salary by Department", x = "Salary (in USD)", y = "Department") + ylim(0, 160000)
+
+
+plot1 <- (ggplot(last10_avgsal, aes(x = rev(reorder(Department, avg_sal)), y = avg_sal)) + geom_bar(stat = "identity", fill = "brown2", position = "dodge", width = 0.75) + coord_flip()) + labs(title = "Least Average Salary by Department (Min: 15 Employees)", y = "Dollars ($)", x = "Department") + geom_text(aes(label= sprintf("$%.2f", avg_sal)), position=position_dodge(width=0.9), hjust=-0.1) + ylim(0, 160000)
+
+plot
+
+plot1
+```
+
+
+
+
+
+

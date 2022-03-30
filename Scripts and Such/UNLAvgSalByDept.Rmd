@@ -1,0 +1,43 @@
+---
+title: "ooga booga"
+author: "Noah Polacek"
+date: "3/29/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(ggplot2)
+```
+
+```{r}
+unlSalaryByDept <- unlSalary[,c(1:5)]
+count_empl <- unlSalaryByDept %>% count(Department) 
+unlSalaryByDept <- unlSalaryByDept %>% group_by(Employee) %>% summarise(Budgeted..Annual.Salary = sum(Budgeted..Annual.Salary), Department = Department) %>% distinct()
+
+
+unlSalaryByDeptWithAvg <-unlSalaryByDept %>% 
+  group_by(Department) %>%
+  summarise_at(vars(Budgeted..Annual.Salary), list(avg_sal = mean))
+unlSalaryByDeptWithAvg$EmployeeCount <- count_empl[,2]
+
+UNLdepartmentData <- unlSalaryByDeptWithAvg[order(unlSalaryByDeptWithAvg$avg_sal, decreasing = T),]
+
+UNLdepartmentData <- UNLdepartmentData[which(UNLdepartmentData$EmployeeCount>=15),]
+
+top10_avgsalUNL <- top_n(UNLdepartmentData, 15, UNLdepartmentData$avg_sal)
+
+
+levy <- c("School of Accountancy","Finance","Supply Chain Management & Analytics","Management","Marketing","Athletics","Economics","Electrical & Computer Engineering","Chemical & Biomolecular Engineering","Office of Vice Pres/Vice Chancellor", "Computer Science & Engineering", "J S Raikes School of Comp Sci & Mgmt", "College of Law", "Mechanical & Materials Engineering", "Agricultural Economics")
+```
+
+
+```{r}
+plot <- (ggplot(top10_avgsalUNL, aes(x = reorder(Department, avg_sal), y = avg_sal, fill = "red")) + geom_bar(stat = "identity") + coord_flip()) +labs(title = "Greatest Average Salary by Department", x = "Salary (in USD)", y = "Department") + ylim(0, 200000)
+
+plot1 <- (ggplot(top10_avgsalUNL, aes(x = reorder(Department, avg_sal), y = avg_sal)) + geom_bar(stat = "identity", fill = "brown2", position = "dodge", width = 0.75) + coord_flip()) + labs(title = "Greatest Average Salary by Department (Min: 15 Employees)", y = "Dollars ($)", x = "Department") + geom_text(aes(label= sprintf("$%.2f", avg_sal)), position=position_dodge(width=0.9), hjust=-0.1) + ylim(0, 160000)
+
+plot
+```
+
