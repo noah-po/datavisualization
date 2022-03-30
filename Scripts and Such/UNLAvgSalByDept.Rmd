@@ -34,10 +34,44 @@ levy <- c("School of Accountancy","Finance","Supply Chain Management & Analytics
 
 
 ```{r}
-plot <- (ggplot(top10_avgsalUNL, aes(x = reorder(Department, avg_sal), y = avg_sal, fill = "red")) + geom_bar(stat = "identity") + coord_flip()) +labs(title = "Greatest Average Salary by Department", x = "Salary (in USD)", y = "Department") + ylim(0, 200000)
+plot <- (ggplot(top10_avgsalUNL, aes(x = reorder(Department, avg_sal), y = avg_sal, fill = "red")) + geom_bar(stat = "identity") + coord_flip()) +labs(title = "Greatest Average Salary by Department for UNL", x = "Salary (in USD)", y = "Department") + ylim(0, 200000)
 
 plot1 <- (ggplot(top10_avgsalUNL, aes(x = reorder(Department, avg_sal), y = avg_sal)) + geom_bar(stat = "identity", fill = "brown2", position = "dodge", width = 0.75) + coord_flip()) + labs(title = "Greatest Average Salary by Department (Min: 15 Employees)", y = "Dollars ($)", x = "Department") + geom_text(aes(label= sprintf("$%.2f", avg_sal)), position=position_dodge(width=0.9), hjust=-0.1) + ylim(0, 160000)
 
 plot
 ```
+
+
+```{r}
+unlSalaryByDept <- unlSalary[,c(1:5)]
+count_empl <- unlSalaryByDept %>% count(Department) 
+unlSalaryByDept <- unlSalaryByDept %>% group_by(Employee) %>% summarise(Budgeted..Annual.Salary = sum(Budgeted..Annual.Salary), Department = Department) %>% distinct()
+
+
+unlSalaryByDeptWithAvg <-unlSalaryByDept %>% 
+  group_by(Department) %>%
+  summarise_at(vars(Budgeted..Annual.Salary), list(avg_sal = mean))
+unlSalaryByDeptWithAvg$EmployeeCount <- count_empl[,2]
+
+unldepartmentData <- unlSalaryByDeptWithAvg[order(unlSalaryByDeptWithAvg$avg_sal),]
+
+trimmedunlData <- unlSalary[,c(1:5)] 
+
+boxSalaries = trimmedunlData[which((unlSalary$Department == "School of Accountancy")|(unlSalary$Department == "Finance")|(unlSalary$Department == "Supply Chain Management & Analytics")|(unlSalary$Department == "Management")|(unlSalary$Department == "Marketing")|(unlSalary$Department == "Athletics")|(unlSalary$Department == "Economics")|(unlSalary$Department == "Electrical & Computer Engineering") | (unlSalary$Department == "Chemical & Biomolecular Engineering") | (unlSalary$Department == "College of Info Science and Tech") | (unlSalary$Department == "Marketing & Entrepreneurship")|(unlSalary$Department == "Office of Vice Pres/Vice Chancellor")| (unlSalary$Department == "Computer Science & Engineering")|(unlSalary$Department == "J S Raikes School of Comp Sci & Mgmt")|(unlSalary$Department == "College of Law")|(unlSalary$Department == "Mechanical & Materials Engineering")),] %>% group_by(Employee) %>% summarise(Budgeted..Annual.Salary = sum(Budgeted..Annual.Salary), Department = Department) %>% distinct()
+
+
+```
+
+
+
+```{r}
+
+boxSalaries %>% 
+  ggplot(aes(y = Budgeted..Annual.Salary, x = factor(Department, levels = rev(levy)))) + 
+  geom_boxplot() + ylim(0,300000) + labs(title = "Salary Spread by Department", x = "Salary", y = "Department") + coord_flip() 
+
+
+```
+
+
 
